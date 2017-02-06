@@ -198,7 +198,7 @@
 
       <form  action="/output_xray" method="GET">
         <div class="form-group">
-          <label for="user_keyword2">This is how students in your best matching course feel about your top keyword, " {{keyword}}." Use the Xray to find out how reviewers feel about any other topic (e.g. homework, instructor, math, explanations)! </label>
+          <label for="user_keyword2">This is how students in your best matching course feel about your new keyword, " {{keyword}}." Use the Xray to find out how reviewers feel about any other topic (e.g. homework, instructor, math, explanations)! </label>
           <input type="text" id="user_keyword2" name='user_keyword2' placeholder="e.g. ">
         </div>
         <div>
@@ -294,7 +294,6 @@ var initStackedBarChart = {
         .attr("width", function(d) { return xScale(d[1]) - xScale(d[0]) });
     
 
- 
       svg.append("text")      // text label for the x axis
         .attr("x", 300 )
         .attr("y",  300 )
@@ -324,6 +323,8 @@ var initStackedBarChart = {
       .attr("class", "axis axis--y")
       .attr("transform", "translate(0,0)")
       .call(yAxis);    
+
+     
 
 
 
@@ -381,6 +382,10 @@ var inithistChart = {
       .domain(x.domain())
       .thresholds(x.ticks(10))
       (data);
+
+
+
+
 
   var y = d3.scaleLinear()
     .domain([0, d3.max(bins, function(d) { return d.length; })])
