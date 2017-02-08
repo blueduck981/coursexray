@@ -3,13 +3,18 @@
 
 
 import pandas as pd
-#import pickle
 import re
-#from sqlalchemy import create_engine
-#from sqlalchemy_utils import database_exists, create_database
-#import psycopg2
+from nltk import tokenize
+import nltk
+from nltk.tokenize import RegexpTokenizer
+from nltk.tokenize import WhitespaceTokenizer
+from nltk.corpus import stopwords # Import the stop word list
+from nltk.stem.porter import PorterStemmer
+from sklearn.feature_extraction.text import CountVectorizer
 
 
+
+p_stemmer = PorterStemmer()
 
 
 def listN(indict,N=10,rand=False):
@@ -26,7 +31,7 @@ def listN(indict,N=10,rand=False):
 
 
 # In[11]:
-
+#REMOVE ME
 def create_documents(review_set,reviews):
     folded_set=[]
     relevant_reviews=reviews[reviews.url==review_set].review
@@ -38,30 +43,44 @@ def create_documents(review_set,reviews):
     return folded_set
 
 
-# In[12]:
+def find_and_combine_reviews(review_set,reviews):
+    folded_set=[]
+    folded_rating=[]
 
+    relevant_reviews=reviews[reviews.url==review_set].review
+    relevant_ratings=reviews[reviews.url==review_set].rating
+
+    for item in relevant_reviews:
+        folded_set.append(item)
+    for item in relevant_ratings:
+        folded_rating.append(item)    
+               
+    return folded_set, folded_rating
+
+
+def create_desc(description):
+    folded_desc=[]
+    for item in description:
+        folded_desc.append(item)
+    return folded_desc    
+
+# In[12]:
+#lowercase, take out punctuation, decode
 def token_re(doc):
-    from nltk.tokenize import RegexpTokenizer
     re_tokenizer = RegexpTokenizer(r'\w+')
-    course_re_tokens = re_tokenizer.tokenize(doc.decode('utf-8').lower())
-    
+    course_re_tokens = re_tokenizer.tokenize(doc.decode('utf-8').lower())    
     return course_re_tokens
 
-
 # In[13]:
-
 def token_ws(doc):
-    from nltk.tokenize import WhitespaceTokenizer
     ws_tokenizer = WhitespaceTokenizer()
-    course_ws_tokens = ws_tokenizer.tokenize(doc.decode('utf-8').lower())
-    
+    course_ws_tokens = ws_tokenizer.tokenize(doc.lower())    
     return course_ws_tokens
-
 
 # In[14]:
 
 def clean_tokens(doc):
-    from nltk.corpus import stopwords # Import the stop word list
+    #from nltk.corpus import stopwords # Import the stop word list
     cleaned_tokens = []
     stop_words = set(stopwords.words('english'))
     for token in doc:
@@ -69,9 +88,40 @@ def clean_tokens(doc):
             cleaned_tokens.append(token)
     return cleaned_tokens
 
+def find_duration_and_number_recent_reviews(documents):
+    durations=[]
+    cut_num_revs=[]
+    for ii,course in enumerate(documents):
+        relevant_times=reviews[reviews.url==course].rev_time
+        if len(relevant_times)>3:
+            durations.append(max(relevant_times)-min(relevant_times))
+            cut_num_revs.append(course_from_sql.num_rev[ii])
+    return durations, cut_num_revs
+
+
+def find_combine_partial_documents(course,reviews):
+    folded_set=[]
+    folded_rating        
+    relevant_times=reviews[reviews.url==course].rev_time
+        
+    if len(relevant_times) > 2:    
+        a= max(relevant_times)-min(relevant_times)
+        endtime=max(relevant_times)
+        subset=reviews[reviews.url==course]
+        smaller_subset=subset[subset.rev_time > (endtime-a/3)].review
+        smaller_rating=subset[subset.rev_time > (endtime-a/3)].rating
+
+        for item in smaller_subset:
+            folded_set.append(item)
+        for item in smaller_rating:
+            folded_rating.append(item)
+
+        else:
+            folded_set.append(' ')   
+    return folded_set,folded_ratings
 
 # In[15]:
-
+#REMOVE ME
 def remove_my_stopwords(recombined_doc):
     check=["andrew"," ng ", "course", "professor","coursera","mooc","udacity","edx","udemy"]
     r_check=[""," ", "","","","","","",""]
@@ -84,10 +134,34 @@ def remove_my_stopwords(recombined_doc):
     return recombined_doc
 
 
-# In[16]:
+def preprocess_text(folded_set,folded_desc): 
 
+    #hold all reviews as big paragraph
+    raw_desc='-'.join(folded_desc)    
+    raw_doc='-'.join(folded_set)
+    #print raw_doc
+    
+    #all words in all reviews tokenized.
+    course_re_tokens=token_re(raw_doc)    
+    desc_re_tokens=token_re(raw_desc)
+    
+    check=["andrew"," ng ", "professor","coursera","mooc","udacity","edx","udemy"]
+    stop_words = set(stopwords.words('english'))
+
+    mystopped_tokens = [i for i in course_re_tokens if not i in check]
+    normal_stopped_tokens = [i for i in mystopped_tokens if not i in stop_words]
+    stopped_desc_tokens=[i for i in desc_re_tokens if not i in stop_words]    
+    #print normal_stopped_tokens
+    #   STEM??    
+    stemmed_reviews = [p_stemmer.stem(i) for i in normal_stopped_tokens]
+    stemmed_desc = [p_stemmer.stem(i) for i in stopped_desc_tokens]
+
+    return stemmed_reviews, stemmed_desc
+
+
+# In[16]:
+#REMOVE ME
 def bagofwords(article):
-    from sklearn.feature_extraction.text import CountVectorizer
     vectorizer = CountVectorizer()    
     article_vect = vectorizer.fit_transform([article])
     freqs = [(word, article_vect.getcol(idx).sum()) for word, idx in vectorizer.vocabulary_.items()]
@@ -96,7 +170,7 @@ def bagofwords(article):
 
 
 # In[17]:
-
+#REMOVE ME
 def calculate_sum_keywords(collect_freqs,input_words):
 
     rec_list=[]
