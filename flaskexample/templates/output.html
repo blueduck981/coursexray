@@ -30,16 +30,11 @@
     <![endif]-->
   </head>
 <style>
-        body {
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        width: 960px;
-        height: 200px;
-        position: relative;
-    }
+       
 
     svg {
-        width: 100%;
-        height: 100%;
+        width: 150%;
+        height: 200%;
         position: center;
     }
 
@@ -60,13 +55,14 @@
     }
 
     text {
-        font: 20px sans-serif;
+        font: 18px sans-serif;
         color: white;
     }
-    text.value {
-        font-size: 120%;
+
+   /*text.value {
+        font-size: 140%;
         fill: white;
-    }
+    }*/
 
     .axisHorizontal path{
         fill: none;
@@ -74,7 +70,7 @@
 
     .axisHorizontal .tick line {
         stroke-width: 1;
-        stroke: rgba(0, 0, 0, 0.2);
+        stroke: rgba(0., 0, 0, 0.2);
     }
 
     .bar rect {
@@ -99,7 +95,7 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="/input">Home</a></li>
+            <li ><a href="/input">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
@@ -120,8 +116,8 @@
 
 <!-- <a href="static/stupid_img.png">link text</a>-->
 
-        <h2>CourseXray Results</h2>
-        <p>Try a new search!</p>
+        <h2>CourseXray </h2>
+        <p class="lead">Want different courses? Try a new search!</p>
     </div>
 
     
@@ -129,31 +125,31 @@
    
 
 
-    <div class = "container">
+    <div class = "container" class='col-12'>
 
       <form  action="/output" method="GET">
-        <div class="form-group">
-          <label for="user_keyword">Enter Keywords:</label>
-          <input type="text" id="user_keyword" name='user_keyword' placeholder="e.g. ">
+       <div class="form-group" class='col-12' > 
+          <label for="user_keyword">Enter Keywords:</label><br>
+          <input  type="text"  class="col-12" id="user_keyword" name='user_keyword' placeholder="e.g. introductory, advanced">
         </div>
         <div>
-          <button type="submit" class="btn btn-default btn-lg">Find Your Class!</button>
+          <button type="submit" class="btn btn-primary btn-lg">Find Your Class!</button>
         </div>
       </form>
     </div>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/js/bootstrap.js"></script>
 
   </div> <!-- /.container-->
 
-
+<br>
 
      </div><!-- /.container -->
 
     <div class="container">
       <div class="starter-template">
         <h3> Hello!</h3>
-        <p class="lead">You are interested in {{the_result}}</p>
+        <p class="lead">You are interested in "{{the_result}}"</p>
       </div>
 
 
@@ -170,7 +166,7 @@
         <h3>Your Course Results:</h3>
 
 
-        <p class="lead">Here are the courses where reviewers were talking about {{the_result}} the most often! <br> Check out the Xray for the top class.  Your next best courses are below! </p>
+        <p class="lead">Here are the courses where reviewers were talking about your keywords the most often! <br> Check out the Xray for the top class.  Your next best courses are below! </p>
       </div>
 
 
@@ -179,7 +175,7 @@
       <tr><th>Course</th><th>Description</th><th>Number of Reviews</th><th>Offered by</th> <th></th></tr>
       {% for x in  c1 %}
       <tr><td><a href={{x['url']}}>{{ x['coursename']}}</td>
-        <td>{{ x['description'] }}</td>
+        <td>{{ x['description'] }}  <a href={{x['url']}}> ...More Here! </td>
         <td> {{ x['number'] }}</td>
         <td> {{ x['company'] }}</td>     
       </tr>
@@ -187,28 +183,39 @@
       </table>
 
 
-
-
-
-<div id='stacked-bar' >  </div>
-<div id='hist_sent'></div>
-
-
+<br>
+<br>
+<br>
+<p class="lead"> This is how students in your best matching course feel about your top keyword, "<b>{{keyword}}</b>." Use the Xray to find out how reviewers feel about any other topic (e.g. homework, instructor, math, explanations)!   </p>
     <div class = "container">
 
       <form  action="/output_xray" method="GET">
-        <div class="form-group">
-          <label for="user_keyword2">This is how students in your best matching course feel about your top keyword, " {{keyword}}." Use the Xray to find out how reviewers feel about any other topic (e.g. homework, instructor, math, explanations)! </label>
-          <input type="text" id="user_keyword2" name='user_keyword2' placeholder="e.g. ">
+        <div class="form-group"> 
+          <label for="user_keyword2"> </label>
+          <input type="text" class="input-lg" id="user_keyword2" name='user_keyword2' placeholder="New topic! ">
         </div>
         <div>
-          <button type="submit" class="btn btn-default btn-lg">Xray!</button>
+          <button type="submit" class="btn btn-primary btn-lg">Xray!</button>
         </div>
       </form>
     </div>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="static/js/bootstrap.min.js"></script>
 
+<br>
+<br>
+
+
+ <div class="container">
+  <table>
+<tr><th> <div id="stacked-bar"> </div> </th>   
+ <th> <div id='hist_sent'></div>    </th></tr>
+ </table>
+</div>
+<!-- <div id='stacked-bar' >  </div>
+<div id='hist_sent'></div> -->
+
+<br>
 <br>
 
 
@@ -219,9 +226,11 @@
       <tr><th>Course</th><th>Description</th><th>Number of Reviews</th><th>Offered by</th> </tr>
       {% for course in  courses %}
       <tr><td><a href={{course['url']}}>{{ course['coursename']}}</td>
-        <td>{{ course['description'] }}</td>
+        <td>{{ course['description'] }}  <a href={{course['url']}}> ...More Here! </td>
         <td> {{ course['number'] }}</td>
         <td> {{ course['company'] }}</td>   
+
+
 
 
       </tr>
@@ -248,6 +257,7 @@
 
 
 
+
 <script src="//d3js.org/d3.v4.min.js"></script>
 <script>
 var initStackedBarChart = {
@@ -256,14 +266,14 @@ var initStackedBarChart = {
     domEle = config.element,
     stackKey = config.key,
     data = config.data,
-    margin = {top: 20, right: 100, bottom: 50, left: 100},
-    width = 760 - margin.left - margin.right,
+    margin = {top: 30, right: 180, bottom: 50, left: 9},
+    width = 700 - margin.left - margin.right,
     height = 300 - margin.top - margin.bottom,
     xScale = d3.scaleLinear().rangeRound([0, width]),
     yScale = d3.scaleBand().rangeRound([height, 0]).padding(0.1),
-    color = d3.scaleOrdinal(d3.schemeCategory20b),
+    color = d3.scaleOrdinal(d3.schemeCategory20),
 
-    xAxis = d3.axisBottom(xScale),
+    xAxis = d3.axisBottom(xScale).ticks(5),
     yAxis =  d3.axisLeft(yScale),
     svg = d3.select("#"+domEle).append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -278,8 +288,11 @@ var initStackedBarChart = {
   
     var layers= stack(data);
       data.sort(function(a, b) { return b.total - a.total; });
-      yScale.domain(data.map(function(d) { return (d.date); }));
+      yScale.domain(data.map(function(d) { return (d.word); }));
       xScale.domain([0, d3.max(layers[layers.length - 1], function(d) { return d[0] + d[1]; }) ]).nice();
+    var tooltip = d3.select("body").append("div").attr("class", "toolTip");
+
+
     var layer = svg.selectAll(".layer")
       .data(layers)
       .enter().append("g")
@@ -288,42 +301,79 @@ var initStackedBarChart = {
       layer.selectAll("rect")
         .data(function(d) { return d; })
       .enter().append("rect")
-        .attr("y", function(d) { return yScale((d.data.date)); })
+        .attr("y", function(d) { return yScale((d.data.word)); })
         .attr("x", function(d) { return xScale(d[0]); })
         .attr("height", yScale.bandwidth())
-        .attr("width", function(d) { return xScale(d[1]) - xScale(d[0]) });
-    
+        .attr("width", function(d) { return xScale(d[1]) - xScale(d[0]) })
+    .on("mousemove", function(d){
+            tooltip
+              .style("left", d3.event.pageX - 50 + "px")
+              .style("top", d3.event.pageY - 70 + "px")
+              .style("display", "inline-block")
+              .html( "Keyword: " + (d.data.word)+"<br>"+"Review: "+ d3.format(".2f")(d.data.review) + "<br>"  + "Description: "+d3.format(".2f")(d.data.description));
+              })
+        .on("mouseout", function(d){ tooltip.style("display", "none");});
 
- 
+
       svg.append("text")      // text label for the x axis
-        .attr("x", 300 )
-        .attr("y",  300 )
+        .attr("x", width/2. )
+        .attr("y",  1.25*height )
         .style("text-anchor", "middle")
         .text("Score");
 
 
-        svg.append("text")      // text label for the x axis
-        .attr("x", 50 )
-        .attr("y",  50 )
+       svg.append("text")      // text label for the x axis
+        .attr("x", 0.4*width)
+        .attr("y",  0.15*height )
         .style("text-anchor", "middle")
-        .text("Reviews");
-
-    svg.append("text")      // text label for the x axis
-        .attr("x", 500 )
-        .attr("y",  50 )
-        .style("text-anchor", "middle")
+        .style("fill", "LightSteelBlue")
         .text("Descriptions");
+
+
+
+ 
+      svg.append("text")      // text label for the x axis
+        .attr("x", 0.1*width)
+        .attr("y",  0.15*height )
+        .style("text-anchor", "middle")
+        .style("fill", "SteelBlue")
+        .text("Reviews");
 
 
 
       svg.append("g")
       .attr("class", "axis axis--x")
-      .attr("transform", "translate(0," + (height+5) + ")")
+      .attr("transform", "translate(0," + (height) + ")")
       .call(xAxis);
-      svg.append("g")
+     
+  svg.append("g")
       .attr("class", "axis axis--y")
       .attr("transform", "translate(0,0)")
+    //.style("text-anchor", "start")
+      //.attr("transform", function(d) {
+       //         return "rotate(-65)" 
+        //        })
       .call(yAxis);    
+
+
+
+      svg.append("g")
+      .attr("class", "axis axis--y")
+      .attr("transform", "translate(" + (width) + ",0)")
+    //.style("text-anchor", "start")
+      //.attr("transform", function(d) {
+       //         return "rotate(-65)" 
+        //        })
+      .call(yAxis);    
+
+
+
+     svg.append("g")
+    .attr("transform", "translate(" + (width/5) + ", -15)")
+    .append("text")
+    .text("Where your keywords occurred:")
+    .style({"text-anchor":"middle", "font-family":"Arial", "font-weight":"800"});
+
 
 
 
@@ -334,13 +384,13 @@ var initStackedBarChart = {
  
 
 var data = [
-{"date":"{{power[0]['word'] }}","wounds":{{power[0]['rev_pow'] }},"other":{{power[0]['des_pow'] }}},
-{"date":"{{power[1]['word'] }}","wounds":{{power[1]['rev_pow'] }},"other":{{power[1]['des_pow'] }}},
-{"date":"{{power[2]['word'] }}","wounds":{{power[2]['rev_pow'] }},"other":{{power[2]['des_pow'] }}},
-{"date":"{{power[3]['word'] }}","wounds":{{power[3]['rev_pow'] }},"other":{{power[3]['des_pow'] }}},
-{"date":"{{power[4]['word'] }}","wounds":{{power[4]['rev_pow'] }},"other":{{power[4]['des_pow'] }}},
+{"word":"{{power[0]['word'] }}","review":{{power[0]['rev_pow'] }},"description":{{power[0]['des_pow'] }}},
+{"word":"{{power[1]['word'] }}","review":{{power[1]['rev_pow'] }},"description":{{power[1]['des_pow'] }}},
+{"word":"{{power[2]['word'] }}","review":{{power[2]['rev_pow'] }},"description":{{power[2]['des_pow'] }}},
+{"word":"{{power[3]['word'] }}","review":{{power[3]['rev_pow'] }},"description":{{power[3]['des_pow'] }}},
+{"word":"{{power[4]['word'] }}","review":{{power[4]['rev_pow'] }},"description":{{power[4]['des_pow'] }}},
 ];
-var key = ["wounds", "other"];
+var key = ["review", "description"];
 
 
 
@@ -356,8 +406,8 @@ var inithistChart = {
   draw: function(config) {
     domEle = config.element,
     data = config.data,
-    margin = {top: 20, right: 100, bottom: 50, left: 100},
-    width = 760 - margin.left - margin.right,
+    margin = {top: 30, right: 100, bottom: 50, left: 80},
+    width = 660 - margin.left - margin.right,
     height = 300 - margin.top - margin.bottom,
 
     svg = d3.select("#"+domEle).append("svg")
@@ -369,18 +419,19 @@ var inithistChart = {
 
     var formatCount = d3.format(",.0f");
 
-    var x = d3.scaleLinear([-0.5,1])
-    .rangeRound([0, width]);
-
-
     var x = d3.scaleLinear()
+    .rangeRound([0, width]).domain([-0.5,1]);
+
+
+    /*var x = d3.scaleLinear()
     .domain([-0.5, 1])
-    .range([0, width]); 
+    .range([0, width]); */
 
     var bins = d3.histogram()
       .domain(x.domain())
-      .thresholds(x.ticks(10))
+      .thresholds(x.ticks(15))
       (data);
+
 
   var y = d3.scaleLinear()
     .domain([0, d3.max(bins, function(d) { return d.length; })])
@@ -395,40 +446,52 @@ var inithistChart = {
 
     bar.append("rect")
     .attr("x", 1)
-    .attr("width", x(bins[0].x1) - x(bins[0].x0) - 1)
+    .attr("width", x(bins[0].x1) - x(bins[0].x0) - 1.)
     .attr("height", function(d) { return height - y(d.length); });
 
 
       svg.append("text")      // text label for the x axis
-        .attr("x", 50 )
-        .attr("y",  300 )
+        .attr("x", width/6. )
+        .attr("y",  1.25*height )
+          .attr("font-size", "20px")
+
         .style("text-anchor", "middle")
         .text("Less Happy");
 
 
       svg.append("text")      // text label for the x axis
-        .attr("x", 550 )
-        .attr("y",  300 )
+        .attr("x", 0.9*width )
+        .attr("y",  1.25*height )
+                .attr("font-size", "20px")
         .style("text-anchor", "middle")
         .text("More Happy");
 
       svg.append("g")
       .attr("class", "axis axis--x")
       .attr("transform", "translate(0," + height + ")")
+
       .call(d3.axisBottom(x));
     
+
+     svg.append("g")
+    .attr("transform", "translate(" + (width/15) + ", -15)")
+    .append("text")
+            .attr("font-size", "18px")
+
+    .text("How happy students are about your keyword:  {{keyword}}")
+    .style({"text-anchor":"middle", "font-family":"Arial", "font-weight":"0"});
+
+
 
   }
 }
 
 var dhist ={{dhist}};
-
+/*var dhist=[0.51,0.71,0.72]*/
 inithistChart.draw({
   data: dhist,
   element: 'hist_sent'
 });
-
-
 
 
 
