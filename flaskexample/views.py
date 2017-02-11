@@ -42,6 +42,17 @@ def slide():
   return render_template("slides.html")
 
 
+@app.route('/contact')
+def contact():
+  return render_template("contact.html")
+
+
+
+@app.route('/about')
+def about():
+  return render_template("about.html")
+
+
 @app.route('/backup_slides')
 def backup_slides():
   return render_template("backup_slides.html")

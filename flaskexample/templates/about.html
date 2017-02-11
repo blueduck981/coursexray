@@ -53,38 +53,42 @@
       </div>
     </nav>
 
+
 <div class="container">
 
     <div class="starter-template">
         <br><br>
-  <br>
+    <br>
    <div class="col-md-3 col-md-offset-2"></div>
    <img id="im1" src="{{ url_for('static', filename='x-ray-clipart-Xrayspec.jpg') }}" width="100" alt="Example Visualization"/>
   </div>
+    </div>
+
+
+<div class="container">
+    <div class="starter-template">
+
         <h2>Welcome to CourseXray</h2>
-
-        <p class="lead"> What subjects or characteristics are you interested in for  your Data Science Online Course?</p>
+<h3> <span style="color: steelblue"><i>"student insights revealed for your future course"</i>  </span> </h3>
+        <br>
+</div>
     </div>
 
-    <div class = "container">
+      <div class="container">
+    <div class="starter-template">
+  
+         <div class="col-6">
+        <p class="lead"> CourseXray is a tool to help  find the right online data course for <i>you</i>.  Enter any keywords into the search bar and CourseXray will mine both course descriptions and course reviews for Coursera, Udacity, EdX, and Udemy. This provides a directed and more encompassing search than would be obtained using course titles or subject tags alone.  </p>
+       <p class="lead">  But that's not all!  </p>
 
-      <form  action="/output" method="GET">
-        <div class="form-group">
-          <label for="user_keyword">Enter Keywords:</label>
-          <input type="text"  class="input-lg" id="user_keyword" name='user_keyword' placeholder="e.g. python, advanced, machine learning ">
         </div>
-
-        <div>
-          <button type="submit" class="btn btn-primary btn-lg">Find your class!</button>
-        </div>
-
-      </form>
     </div>
 
+   
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="static/js/bootstrap.min.js"></script>
+        </div>
 
-  </div> <!-- /.container-->
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
