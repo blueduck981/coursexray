@@ -78,8 +78,29 @@
     <div class="starter-template">
   
          <div class="col-6">
-        <p class="lead"> CourseXray is a tool to help  find the right online data course for <i>you</i>.  Enter any keywords into the search bar and CourseXray will mine both course descriptions and course reviews for Coursera, Udacity, EdX, and Udemy. This provides a directed and more encompassing search than would be obtained using course titles or subject tags alone.  </p>
+        <p class="lead"> CourseXray is a tool to help  find the right online data course for <i>you</i>.  Enter any keywords into the search bar and CourseXray will mine both course descriptions and course reviews for Coursera, Udacity, EdX, and Udemy. This provides a directed and more encompassing search than would be obtained using course titles or subject tags alone.   </p>
        <p class="lead">  But that's not all!  </p>
+       <p class="lead">  CourseXray will show you how your different keywords influenced the results you received:   </p>
+
+    <img id="im1" src="{{ url_for('static', filename='keys2.jpeg') }}" width="400" align='center' alt="Example"/>
+<br>
+       <p class="lead">  The Term Xray also allows you to analyze student sentiment for any topic that is important to you. Use the Xray to see a distribution in polarity for any sentence in the student reviews where your topic was mentioned.  </p>
+
+       <p class="lead">  Check out some example Xrays below. This first example shows a course where students tended to be more happy about the instructor, and the next example shows a course where students tended to be less happy.   </p>
+
+ <img id="im1" src="{{ url_for('static', filename='inst-good.jpeg') }}" width="400" align='center' alt="Example2"/>
+<img id="im1" src="{{ url_for('static', filename='inst-bad.jpeg') }}" width="400" align='center' alt="Example3"/>
+
+<br>
+<br>
+<p class="lead">  Go to    <a href="/input"> "Home"</a> to give it a try! </p>
+
+
+
+        <h2>Project Background</h2>
+ <p class="lead">  I created CourseXray during the Insight Data Science Program in 2017 on a timescale of 3 weeks. Course descriptions and reviews were collected with a combination of web scraping and API calls using python libraries.  Analysis was performed with the nltk and sci-kit learn packages, and the web application was created using Flask.  Dynamic visualizations for the application were created using D3.js.  The website was deployed with AWS EC2.    </p>
+<br>
+<br>
 
         </div>
     </div>
