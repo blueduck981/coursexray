@@ -50,10 +50,8 @@ def initial_processing(course_from_sql, reviews):
  
     		course_sentiment_text='-'.join(folded_set).replace('\n', ' ').replace('-', ' ').replace('=', ' ')
    
-    	#bettertext=crappytext.replace('\n', ' ').replace('-', ' ').replace('=', ' ')
 
     
-    	#crappytext.replace('\\',' ').replace('xa')
     		blob = TextBlob(course_sentiment_text.decode('utf-8'))
     		collect_course_sentiment.append(blob.sentiment.polarity)
     
@@ -131,6 +129,37 @@ def get_word_power(besturl,collect_url_order,tfidf_reviews,reviews_vectorizer, s
         x = [(k,d[k]) for k in stemmed_input]
         return [item[0] for item in x],[item[1] for item in x]          	
     	#return keep_word, keep_value
+
+
+def check_input(stemmed_input,r_vect,d_vect,good_input):
+    r_features=r_vect.get_feature_names()
+    d_features=d_vect.get_feature_names()
+    error_list=[]
+    keep_error=[]
+
+    for ii, word in enumerate(stemmed_input):
+        if word not in r_features:
+            #print word
+            stemmed_input.remove(word)
+            error_list.append(word)
+            #print good_input[ii]
+            keep_error.append(good_input[ii])
+           # print keep_error
+            del good_input[ii]
+    
+
+    for ii, word in enumerate(stemmed_input):
+        if word not in d_features:
+            #print word
+            #print good_input[ii]
+            stemmed_input.remove(word)
+            error_list.append(word)
+            keep_error.append(good_input[ii])
+
+            del good_input[ii]
+    bad_output= ", ".join(keep_error)
+    return stemmed_input, bad_output, good_input, error_list
+
 
 
 if __name__ == '__main__':
