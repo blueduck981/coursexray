@@ -88,6 +88,8 @@ def xray_output():
   input_array= [i for i in jc.token_ws(input_string)]
 
   good_input=input_array
+  
+  #input check...keep track of bad words and remove
   stemmed_input, bad_output,good_input, error_list=initial_model.check_input(stemmed_input,\
           reviews_vectorizer,description_vectorizer, good_input )
 
@@ -96,10 +98,9 @@ def xray_output():
   #print input_string
   save_string= ' '.join(good_input)
   print save_string
-  if input_words[0]=='':
-        #print str(list(keep_error))
-        #bad_output= ", ".join(keep_error)
 
+  #check to see if none of the keywords hit, send to error page
+  if input_words[0]=='':
         return render_template("oops.html", the_result = bad_output)
   else:
 
@@ -114,7 +115,6 @@ def xray_output():
     review_cosine_scores=initial_model.get_cosine_similarities(input_words, reviews_vectorizer, tfidf_reviews)
     description_cosine_scores=initial_model.get_cosine_similarities(input_words, description_vectorizer, tfidf_description)
 
-  #print len(collect_url_order), len(collect_course_sentiment), len(description_cosine_scores)
 
   #create a dataframe with results and add other information
     matching_matrix= pd.DataFrame({'course_url':collect_url_order,'review_score':review_cosine_scores, 
@@ -219,7 +219,7 @@ def xray_output():
       the_result[len(the_result)-1]='and '+str(the_result[len(the_result)-1])
       wordstring=( ", ".join( the_result)) 
 
-
+# check if there were  bad words, send to different output pages if so..
     if bad_output=='':
       print 'all ok'
       return render_template("output.html", courses = courses, the_result = wordstring,power=power,c1=c1,dhist=d,keyword=keyword)
@@ -250,9 +250,15 @@ def xray_output2():
 
   input_string_pretty= old_data_pretty
   stemmed_input = [p_stemmer.stem(i) for i in jc.token_ws(input_string)]
+
+  #special case error, for some reason it's changing how it stems database
+  for ii,word in enumerate(stemmed_input):
+    if word =='databa':
+        stemmed_input[ii]='databas'
+  
+
   input_words=[' '.join(stemmed_input)]
   input_array= jc.token_ws(input_string_pretty)
-  #print input_array
 
 
   #calculate similarities
