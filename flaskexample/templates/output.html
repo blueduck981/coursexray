@@ -35,7 +35,7 @@
     svg {
         width: 100%;
         height: 100%;
-        position: center;
+        position: left;
     }
 
     .toolTip {
@@ -207,12 +207,12 @@
 <br>
 
 
- <div class="starter-template" class="col-md-10 " class="col-md-offset-2 "class="col-lg-10 ">
+ <div class="container"  >
 
    <table>
-    <tr><th> <h3> <span style="color: steelblue">Keyword Importance  </span> </th> <th> <h3><span style="color: steelblue">Term Xray</span>  </h3></th></tr>
+    <tr><th> <h3> <span style="color: steelblue">Keyword Importance  </span> </th> <th> <th><th><h3><span style="color: steelblue">Term Xray</span>  </h3></th></tr>
 
-    <tr><th> <div id="stacked-bar"> </div> </th>   
+    <tr><th> <div id="stacked-bar"> </div> </th><th> <th>  
     <th> <div id='hist_sent'></div>    </th></tr>
     </table>
 
@@ -283,8 +283,8 @@ var initStackedBarChart = {
     xAxis = d3.axisBottom(xScale).ticks(5),
     yAxis =  d3.axisLeft(yScale),
     svg = d3.select("#"+domEle).append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+        .attr("width", width + margin.left + margin.right +'px')
+        .attr("height", height + margin.top + margin.bottom +'px')
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -324,7 +324,7 @@ var initStackedBarChart = {
 
       svg.append("text")      // text label for the x axis
         .attr("x", width/2. )
-        .attr("y",  1.25*height )
+        .attr("y",  1.2*height )
         .style("text-anchor", "middle")
         .text("Score");
 
@@ -376,7 +376,7 @@ var initStackedBarChart = {
 
 
      svg.append("g")
-    .attr("transform", "translate(" + (width/5) + ", -15)")
+    .attr("transform", "translate(" + (width/10) + ", -10)")
     .append("text")
     .text("Where your keywords occurred:")
     .style({"text-anchor":"middle", "font-family":"Arial", "font-weight":"800"});
@@ -415,16 +415,26 @@ var inithistChart = {
     data = config.data,
 
  
-    margin = {top: 30, right: 50, bottom: 150, left: 100},
-    width = 500 - margin.left - margin.right,
+    /*margin = {top: 00, right: 0, bottom: 0, left: 0},
+    width = 400 ,
+    height = 300 ,*/
+    margin = {top: 30, right: 50, bottom: 150, left: 9},
+    width = 400 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom,
-
     svg = d3.select("#"+domEle).append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        .attr("width", width + margin.left + margin.right + 'px')
+        .attr("height", height + margin.top + margin.bottom + 'px')
 
+
+
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + " )");
+    /*svg = d3.select("#"+domEle).append("svg")
+        .attr("width", width + margin.left + margin.right + 'px')
+        .attr("height", height + margin.top + margin.bottom + 'px')
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + " px)");
+*/
 
     var formatCount = d3.format(",.0f");
 
@@ -461,7 +471,7 @@ var inithistChart = {
 
       svg.append("text")      // text label for the x axis
         .attr("x", width/6. )
-        .attr("y",  1.25*height )
+        .attr("y",  1.2*height )
           .attr("font-size", "20px")
 
         .style("text-anchor", "middle")
@@ -469,8 +479,8 @@ var inithistChart = {
 
 
       svg.append("text")      // text label for the x axis
-        .attr("x", 0.9*width )
-        .attr("y",  1.25*height )
+        .attr("x", 0.8*width )
+        .attr("y",  1.20*height )
                 .attr("font-size", "20px")
         .style("text-anchor", "middle")
         .text("More Happy");
@@ -483,7 +493,7 @@ var inithistChart = {
     
 
      svg.append("g")
-    .attr("transform", "translate(" + (width/15) + ", -15)")
+    .attr("transform", "translate(" + (width/20) + ", -15)")
     .append("text")
             .attr("font-size", "18px")
 
